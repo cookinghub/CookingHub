@@ -24,4 +24,9 @@ public class CookingHabServiceImpl implements CookingHubService {
     public Recipe findByTitle(String title) {
         return recipesRepo.findById(title).orElse(null);
     }
+
+    @Override
+    public Recipe addRecipe(Recipe recipe) {
+        return recipesRepo.saveAndFlush(recipe);
+    }
 }

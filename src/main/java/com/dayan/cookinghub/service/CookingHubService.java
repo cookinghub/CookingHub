@@ -9,4 +9,6 @@ public interface CookingHubService{
     Page<Recipe> getAllRecipes(Pageable pageable);
 
     Recipe findByTitle(String title);
+
+    Recipe addRecipe(Recipe recipe);
 }
