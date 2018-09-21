@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CookingHabServiceImpl implements CookingHubService {
+public class CookingHubServiceImpl implements CookingHubService {
 
     @Autowired
     private RecipesRepo recipesRepo;
