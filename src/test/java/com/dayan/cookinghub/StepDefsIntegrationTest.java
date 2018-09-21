@@ -1,6 +1,9 @@
 package com.dayan.cookinghub;
 
+import com.dayan.cookinghub.model.Recipe;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +42,20 @@ public class StepDefsIntegrationTest {
         assertThat(body, containsString("\"content\":[]"));
     }
 
+    @Given("^the client adds a recipe$")
+    public void theClientAddsARecipe() throws Throwable {
+        Recipe r = new Recipe("fancy-recipe", "thing number 1. Then thing number 2. Then thing number3");
+        response = restTemplate.postForEntity("/recipes", r, String.class);
+    }
+
+    @When("^the client retreives the new recipe$")
+    public void theClientRetreivesTheNewRecipe() throws Throwable {
+        response = restTemplate.getForEntity("/recipes/fancy-recipe", String.class);
+    }
+
+    @Then("^the recipe is returned$")
+    public void theRecipeIsReturned() throws Throwable {
+        assertThat(response.getBody(), containsString("fancy-recipe"));
+
+    }
 }
