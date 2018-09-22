@@ -26,9 +26,11 @@ public class CookingController {
         return cookingHubService.getAllRecipes(pageable);
     }
 
-
     @PostMapping
     public Recipe addRecipe(@RequestBody Recipe recipe) {
         return cookingHubService.addRecipe(recipe);
     }
+
+    @DeleteMapping
+    public void deleteAll() {cookingHubService.deleteRecipes();}
 }
