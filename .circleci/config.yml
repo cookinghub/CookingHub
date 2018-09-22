@@ -39,7 +39,9 @@ jobs:
 
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: mvn compile
-      - run: mvn dockerfile:build
+
       # run tests!
       - run: mvn test
+
+      # package
+      - run: mvn package
