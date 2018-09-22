@@ -37,5 +37,9 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: mvn compile
+      - run: mvn dockerfile:build
       # run tests!
-      - run: mvn integration-test
+      - run: mvn test
