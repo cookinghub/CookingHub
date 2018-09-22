@@ -29,4 +29,10 @@ public class CookingHubServiceImpl implements CookingHubService {
     public Recipe addRecipe(Recipe recipe) {
         return recipesRepo.saveAndFlush(recipe);
     }
+
+    @Override
+    public void deleteRecipes() {
+        recipesRepo.deleteAll();
+    }
+
 }

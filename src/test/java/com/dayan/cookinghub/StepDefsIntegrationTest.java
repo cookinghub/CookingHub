@@ -26,9 +26,16 @@ public class StepDefsIntegrationTest {
 
     ResponseEntity<String> response;
 
+    String latestRecipeTitle;
+
+    @Given("^no recipes are in the DB$")
+    public void noRecipesAreInTheDB() throws Throwable {
+        restTemplate.delete("/recipes");
+    }
+
     @When("^the client calls /recipes$")
     public void theClientCallsRecipes() throws Throwable {
-        response =  restTemplate.getForEntity("/recipes", String.class);
+        response = restTemplate.getForEntity("/recipes", String.class);
     }
 
     @Then("^the client receives status code of (\\d+)$")
@@ -36,26 +43,28 @@ public class StepDefsIntegrationTest {
         assertThat(code, is(response.getStatusCodeValue()));
     }
 
-    @And("^the client receives an empty list$")
+    @Then("^the client receives an empty list$")
     public void theClientReceivesAnEmptyList() throws Throwable {
         String body = response.getBody();
         assertThat(body, containsString("\"content\":[]"));
     }
 
-    @Given("^the client adds a recipe$")
-    public void theClientAddsARecipe() throws Throwable {
-        Recipe r = new Recipe("fancy-recipe", "thing number 1. Then thing number 2. Then thing number3");
+    @Given("^the client adds a recipe named (.+)$")
+    public void theClientAddsARecipe(String title) throws Throwable {
+        Recipe r = new Recipe(title, "thing number 1. Then thing number 2. Then thing number3");
         response = restTemplate.postForEntity("/recipes", r, String.class);
+        latestRecipeTitle = title;
     }
 
-    @When("^the client retreives the new recipe$")
-    public void theClientRetreivesTheNewRecipe() throws Throwable {
-        response = restTemplate.getForEntity("/recipes/fancy-recipe", String.class);
+    @When("^the client retrieves the new recipe$")
+    public void theClientRetrievesTheNewRecipe() throws Throwable {
+        response = restTemplate.getForEntity(String.format("/recipes/%s", latestRecipeTitle), String.class);
     }
 
-    @Then("^the recipe is returned$")
+    @Then("^the recipe just added is returned$")
     public void theRecipeIsReturned() throws Throwable {
-        assertThat(response.getBody(), containsString("fancy-recipe"));
-
+        assertThat(response.getBody(), containsString(latestRecipeTitle));
     }
 }
+
+

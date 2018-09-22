@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,6 +29,7 @@ public class ApplicationTest {
 
     @Test
     public void emptyList() throws Exception {
+        this.mockMvc.perform(delete("/recipes"));
         this.mockMvc.perform(get("/recipes")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"content\":[]")));
     }

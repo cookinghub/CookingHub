@@ -11,4 +11,6 @@ public interface CookingHubService{
     Recipe findByTitle(String title);
 
     Recipe addRecipe(Recipe recipe);
+
+    void deleteRecipes();
 }
