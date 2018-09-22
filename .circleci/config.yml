@@ -12,6 +12,11 @@ jobs:
         - run:
             name: Install awscli
             command: sudo pip install awscli
+
+        - checkout
+        -run:
+          name: list everything
+          command: find .
         - run:
             name: Deploy to ECR
             command: ./scripts/deploy-to-ecr.sh
@@ -63,6 +68,6 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
+#          filters:
+#            branches:
+#              only: master
