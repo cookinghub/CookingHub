@@ -6,20 +6,27 @@ version: 2
 jobs:
   deploy:
       docker:
-        - image: circleci/python:3-stretch-node-browsers
+        - image: circleci/openjdk:8-jdk
       working_directory: ~/cookinghub
       steps:
         - run:
+            name: Install pip
+            command: sudo apt-get install python-pip
+        - run:
             name: Install awscli
-            command: sudo pip install awscli
+            command: sudo pip install --system awscli
 
         - checkout
+
+        - setup_remote_docker:
+            docker_layer_caching: true
+
         - run:
-            name: list everything
-            command: find .
-        - run:
-            name: Deploy to ECR
-            command: ./scripts/deploy-to-ecr.sh
+            name: Deploy
+            command: mvn -Dmaven.test.skip=true deploy
+
+
+
 
   build:
     docker:
@@ -58,7 +65,7 @@ jobs:
           docker_layer_caching: true
 
       # package - NOTE: currently runs the tests before packaging
-      - run: mvn package
+      - run: mvn test
 
 workflows:
   version: 2
