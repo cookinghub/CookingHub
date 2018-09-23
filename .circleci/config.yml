@@ -23,7 +23,7 @@ jobs:
 
         - run:
             name: Deploy
-            command: mvn -Dmaven.test.skip=true deploy
+            command: mvn -Dmaven.test.skip=true package dockerfile:push
 
 
 
