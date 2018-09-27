@@ -14,7 +14,7 @@ jobs:
             command: sudo apt-get install python-pip
         - run:
             name: Install awscli
-            command: sudo pip install --system awscli
+            command: sudo pip install --system awscli boto3
 
         - checkout
 
@@ -41,7 +41,7 @@ jobs:
 
         - run:
             name: Deploy
-            command: ./scripts/deploy-to-ecr.sh
+            command: ./scripts/deploy-to-ecr.sh ${CIRCLE_SHA1}
 
   build:
     docker:
